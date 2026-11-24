@@ -1,4 +1,5 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -18,9 +19,17 @@ const RegisterPage = () => {
   const password = watch("password");
   // console.log(password);
 
-  const handleRegisterFunc = (data) => {
+  const handleRegisterFunc = async(data) => {
     // console.log(data);
     const {email, name, photo, password} = data;
+
+    const { data, error } = await authClient.signUp.email({
+    name: "John Doe", // required, The name of the user.
+    email: "john.doe@example.com", // required, The email address of the user.
+    password: "password1234", // required, The password of the user. It should be at least 8 characters long and max 128 by default.
+    image: "https://example.com/image.png", // An optional profile image of the user.
+    callbackURL: "https://example.com/callback", // An optional URL to redirect to after the user signs up.
+});
   };
 
   // old methode e eivabe form er value neya hoto ekhon react hook form install kore neya jai.
