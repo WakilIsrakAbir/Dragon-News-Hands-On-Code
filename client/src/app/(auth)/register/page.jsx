@@ -19,17 +19,27 @@ const RegisterPage = () => {
   const password = watch("password");
   // console.log(password);
 
-  const handleRegisterFunc = async(data) => {
+  const handleRegisterFunc = async (data) => {
     // console.log(data);
-    const {email, name, photo, password} = data;
+    const { email, name, photo, password } = data;
 
-    const { data, error } = await authClient.signUp.email({
-    name: "John Doe", // required, The name of the user.
-    email: "john.doe@example.com", // required, The email address of the user.
-    password: "password1234", // required, The password of the user. It should be at least 8 characters long and max 128 by default.
-    image: "https://example.com/image.png", // An optional profile image of the user.
-    callbackURL: "https://example.com/callback", // An optional URL to redirect to after the user signs up.
-});
+    const { data: res, error } = await authClient.signUp.email({
+      name: name, // required, The name of the user.
+      email: email, // required, The email address of the user.
+      password: password, // required, The password of the user. It should be at least 8 characters long and max 128 by default.
+      image: photo, // An optional profile image of the user.
+      callbackURL: "/", // An optional URL to redirect to after the user signs up.
+    });
+
+    console.log(res, error);
+
+    if(error) {
+      alert(error.message);
+    }
+
+    if(res){
+      alert("Sign Up Successfull");
+    }
   };
 
   // old methode e eivabe form er value neya hoto ekhon react hook form install kore neya jai.
@@ -47,7 +57,6 @@ const RegisterPage = () => {
           Register your account
         </h1>
         <form onSubmit={handleSubmit(handleRegisterFunc)}>
-
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Name</legend>
             <input
@@ -77,7 +86,7 @@ const RegisterPage = () => {
               ""
             )}
           </fieldset>
-          
+
           <fieldset className="fieldset">
             <legend className="fieldset-legend">Email Address</legend>
             <input
